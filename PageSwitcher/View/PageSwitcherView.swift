@@ -103,7 +103,7 @@ class PageSwitcherView: UIView {
      */
     func switchPage(to pageNum: Int) {
         
-        if self.pages.count > 0 && self.currentPage != pageNum {
+        if self.pages.count > 0 && pageNum < self.pageVCs.count && self.currentPage != pageNum {
             if self.isAnimated {
                 // previous page get out
                 self.delegate?.onViewWillDisappear(self.pageVCs[self.currentPage])
@@ -202,14 +202,16 @@ class PageSwitcherView: UIView {
      */
     func removePage(at index: Int) {
         
-        self.pageVCs.remove(at: index)
-        reloadPages()
+        if index < self.pageVCs.count {
+            self.pageVCs.remove(at: index)
+            reloadPages()
+        }
         
     }
     
     /**
      *
-     * Remove all specific pages from page switcher.
+     * Remove all pages from page switcher.
      *
      */
     func removeAll() {
@@ -257,8 +259,4 @@ class PageSwitcherView: UIView {
     
 }
 
-extension PageSwitcherView: PageSwitcherDataSource {
-    
-    
-    
-}
+extension PageSwitcherView: PageSwitcherDataSource { }
